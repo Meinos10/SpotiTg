@@ -7,7 +7,7 @@ from spotipy.oauth2 import SpotifyOAuth
 from pyrogram import Client
 from pyrogram.types import InputMediaPhoto
 from pyrogram.errors import MessageNotModified
-import time, json
+import time
 
 
 
@@ -19,46 +19,44 @@ Bot = Client(
 )
 
 with Bot as client:
-    try:
-        sp = spotipy.Spotify(
-          auth_manager=SpotifyOAuth(
-            client_id=SPOTIPY_CLIENT_ID,
-            client_secret=SPOTIPY_CLIENT_SECRET,
-            redirect_uri=SPOTIPY_REDIRECT_URI,
-            scope=SCOPE
-        ))
-        print("Bağlandı!")
-    except Exception as e:
-        print(e)
+	try:
+		sp = spotipy.Spotify(
+			auth_manager=SpotifyOAuth(
+				client_id=SPOTIPY_CLIENT_ID,
+				client_secret=SPOTIPY_CLIENT_SECRET,
+				redirect_uri=SPOTIPY_REDIRECT_URI,
+				scope=SCOPE
+		))
+		print("Bağlandı!")
+	except Exception as e:
+		print(e)
 
-    user = sp.current_user()
-    #client.send_photo("ReWoxiSpotify", photo=user["images"][0]["url"], caption="**User Spotify Name: `{}`\nTotal Followers: `{}`**".format(user["display_name"], user["followers"]["total"]))
-    current_song = ""
-    while True:
-        music = sp.currently_playing(MARKET)
-        file = open("./dene.json", "w", encoding="utf-8")
-        json.dump(music, file, indent=4)
-        if not music["is_playing"]:
-            print("Play Music: OFF")
-            exit()
-        else:
-            if current_song == music["item"]["artists"][0]["name"] + " - " + music["item"]["name"]:
-                pass
-            else:
-                current_song = music["item"]["artists"][0]["name"] + " - " + music["item"]["name"]
-                try:
-                    client.edit_message_media(
-				        "ReWoxiSpotify",
-				        message_id=8,
-				        media=InputMediaPhoto(music["item"]["album"]["images"][1]["url"])
-                        )
-                except MessageNotModified:
-                    pass
-                try:
-                    client.edit_message_text(
-                        "ReWoxiSpotify", 
-                        message_id=8,
-                        text="**Şuan Çalan!\n\nSanatcı: `{}`\n\nMüzik: `{}` 🎶\n\n[Dinlemek için tıkla!]({})**".format(music["item"]["artists"][0]["name"], music["item"]["name"], music["item"]["external_urls"]["spotify"]))
-                except MessageNotModified as e:
-                    pass
-            time.sleep(10)
+	user = sp.current_user()
+	#client.send_photo(chat, photo=user["images"][0]["url"], caption="**User Spotify Name: `{}`\nTotal Followers: `{}`**".format(user["display_name"], user["followers"]["total"]))
+	current_song = ""
+	while True:
+		music = sp.currently_playing(MARKET)
+		if not music["is_playing"]:
+			print("Play Music: OFF")
+			exit()
+		else:
+			if current_song == music["item"]["artists"][0]["name"] + " - " + music["item"]["name"]:
+				pass
+			else:
+				current_song = music["item"]["artists"][0]["name"] + " - " + music["item"]["name"]
+				try:
+					client.edit_message_media(
+						chat,
+						message_id=8,
+						media=InputMediaPhoto(music["item"]["album"]["images"][1]["url"])
+					)
+				except MessageNotModified:
+					pass
+				try:
+					client.edit_message_text(
+						chat, 
+						message_id=8,
+						text="**Şuan Çalan!\n\nSanatcı: `{}`\n\nMüzik: `{}` 🎶\n\n[Dinlemek için tıkla!]({})**".format(music["item"]["artists"][0]["name"], music["item"]["name"], music["item"]["external_urls"]["spotify"]))
+				except MessageNotModified as e:
+					pass
+			time.sleep(10)
