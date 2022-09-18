@@ -3,4 +3,4 @@
 - Kanka anlatması zor geldi kurmayı dene olmazsa yazarsın [ReWoxi](https://t.me/ReWoxi)
 
 
-- STAR atmayı unutma!
+- STAR ve TAKIP atmayı unutma!
