@@ -7,3 +7,4 @@ api_id = # my.telegram.org app_id
 api_hash = # my.telegram.org api_hash
 token = # t.me/BotFather new bot token
 chat = # telegram chat id t.me/ReWoxiSpotify
+msg_id = # telegram message_id
