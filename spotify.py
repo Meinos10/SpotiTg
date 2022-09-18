@@ -47,7 +47,7 @@ with Bot as client:
 				try:
 					client.edit_message_media(
 						chat,
-						message_id=8,
+						message_id=msg_id,
 						media=InputMediaPhoto(music["item"]["album"]["images"][1]["url"])
 					)
 				except MessageNotModified:
@@ -55,7 +55,7 @@ with Bot as client:
 				try:
 					client.edit_message_text(
 						chat, 
-						message_id=8,
+						message_id=msg_id,
 						text="**Şuan Çalan!\n\nSanatcı: `{}`\n\nMüzik: `{}` 🎶\n\n[Dinlemek için tıkla!]({})**".format(music["item"]["artists"][0]["name"], music["item"]["name"], music["item"]["external_urls"]["spotify"]))
 				except MessageNotModified as e:
 					pass
