@@ -8,7 +8,7 @@ from pyrogram import Client
 from pyrogram.types import InputMediaPhoto
 from pyrogram.errors import MessageNotModified
 import time
-
+from pyrogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 Bot = Client(
@@ -17,6 +17,10 @@ Bot = Client(
     api_hash=api_hash,
     bot_token=token
 )
+
+def button(name, url):
+    BUTTON = [[InlineKeyboardButton(f"Open Spotify: {name} ✨", url=url)]]
+    return InlineKeyboardMarkup(BUTTON)
 
 with Bot as client:
 	try:
@@ -56,7 +60,8 @@ with Bot as client:
 					client.edit_message_text(
 						chat, 
 						message_id=msg_id,
-						text="**Şuan Çalan!\n\nSanatcı: `{}`\n\nMüzik: `{}` 🎶\n\n[Dinlemek için tıkla!]({})**".format(music["item"]["artists"][0]["name"], music["item"]["name"], music["item"]["external_urls"]["spotify"]))
+						text="**Şuan Çalan!\n\nSanatcı: `{}`\n\nMüzik: `{}` 🎶\n\n**".format(music["item"]["artists"][0]["name"], music["item"]["name"]),
+                        reply_markup=button(music["item"]["name"], music["item"]["external_urls"]["spotify"]))
 				except MessageNotModified as e:
 					pass
 			time.sleep(10)
